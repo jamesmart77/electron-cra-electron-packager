@@ -1,17 +1,38 @@
 {
   "name": "electron-cra",
   "version": "0.1.0",
+  "main": "public/electron.js",
+  "description": "Electron + Create React App + Electron Builder",
   "private": true,
+  "homepage": "./",
+  "author": {
+    "name": "James Martineau",
+    "email": "jamesmart77@gmail.com",
+    "url": "https://jamesmart77.github.io"
+  },
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "electron-builder": "^21.0.15",
+    "electron-packager": "^14.0.1",
+    "electron": "^5.0.7",
+    "typescript": "^3.5.3",
+    "wait-on": "^3.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "preelectron-pack": "npm run build",
+    "package-macOS": "npm preelectron-pack && electron-packager . Electron4Life --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "package-win": "npm preelectron-pack && electron-packager . Electron4Life --platform=win32 --arch=ia32 --out=release-builds"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +48,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.my-website.electron-cra",
+    "productName": "ElectronCRA",
+    "copyright": "Copyright © 2019 ${author}",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   }
 }
